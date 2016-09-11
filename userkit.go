@@ -74,21 +74,26 @@ type SessionToken struct {
 	RefreshAfterSecs float64 `json:"refresh_after_secs"`
 }
 
-type UserKitError struct {
-	ErrorValue struct {
-		Type      string  `json:"type"`
-		Code      string  `json:"code"`
-		Message   string  `json:"message"`
-		RetryWait float64 `json:"retry_wait"`
-	} `json:"error"`
+type userkitErrorResponse struct {
+	ErrorValue UserKitError `json:"error"`
 }
 
-func (e UserKitError) Error() string { return e.ErrorValue.Message }
+type UserKitError struct {
+	Type      string  `json:"type"`
+	Code      string  `json:"code"`
+	Message   string  `json:"message"`
+	RetryWait float64 `json:"retry_wait"`
+	Param     string  `json:"param"`
+}
+
+func (e UserKitError) Error() string { return e.Message }
 
 // processErrResp takes a JSON UserKit error string and returns
 // a UserKitError object.
 func processErrResp(body io.ReadCloser) error {
+	var ukErrResp userkitErrorResponse
+	json.NewDecoder(body).Decode(&ukErrResp)
 	var ukError UserKitError
-	json.NewDecoder(body).Decode(&ukError)
+	ukError = ukErrResp.ErrorValue
 	return ukError
 }
