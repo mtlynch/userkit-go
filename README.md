@@ -1,17 +1,19 @@
-# userkit-go
+# Go UserKit
+
+## Summary
 A UserKit client library for Go
 
-# Installation
+## Installation
 
 ```
 go get github.com/workpail/workpail-go
 ```
 
-# Documentation
+## Documentation
 
 For full examples and docs checkout [UserKit documentation][userkit-docs].
 
-# Example usage
+## Example usage
 
 ```
 package main
