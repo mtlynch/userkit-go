@@ -1,7 +1,7 @@
-# Go UserKit
+# Go UserKit (experimental)
 
 ## Summary
-A UserKit client library for Go
+An experimental UserKit client library for Go
 
 ## Installation
 
@@ -15,7 +15,7 @@ For full examples and docs checkout [UserKit documentation][userkit-docs].
 
 ## Example usage
 
-```
+```go
 package main
 
 import (
@@ -40,7 +40,6 @@ func main() {
 	}
 	fmt.Printf("%+v\n", user)
 }
-
 ```
 
 [userkit-docs]: https://docs.userkit.io
