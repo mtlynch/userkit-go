@@ -3,7 +3,7 @@ package userkit
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -13,12 +13,19 @@ type UKRequest struct {
 	ApiKey string
 }
 
+// UKResponse holds the data from a http response. We need this
+// so that the Do helper method can close the response.Body.
+type UKResponse struct {
+	StatusCode int
+	Body       []byte
+}
+
 // Do makes an authenticated request to the UserKit api. Make
 // sure you replace <USERKIT_APP_KEY> with your app key. payload will
 // be sent as a json request body. Some requests (such as to the
 // users/by_token endpoint) require a sessionToken parameter.
 func (ukrequest *UKRequest) Do(method, url string, payload interface{},
-	sessionToken *string) (*http.Response, error) {
+	sessionToken *string) (*UKResponse, error) {
 	client := &http.Client{}
 	b := new(bytes.Buffer)
 
@@ -37,9 +44,15 @@ func (ukrequest *UKRequest) Do(method, url string, payload interface{},
 	req.SetBasicAuth("api", ukrequest.ApiKey)
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Printf("\nERROR: %v", resp)
-		fmt.Println(err.Error())
 		return nil, err
 	}
-	return resp, nil
+	defer resp.Body.Close()
+
+	// Convert this response to a UKResponse so we can close the resp.Body
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	ukresp := UKResponse{StatusCode: resp.StatusCode, Body: body}
+	return &ukresp, nil
 }

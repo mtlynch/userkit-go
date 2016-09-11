@@ -2,7 +2,6 @@ package userkit
 
 import (
 	"encoding/json"
-	"io"
 )
 
 type UserKit struct {
@@ -25,7 +24,7 @@ func (uk *UserKit) GetCurrentUser(sessionToken string) (*User, error) {
 	}
 
 	var user User
-	json.NewDecoder(r.Body).Decode(&user)
+	json.Unmarshal(r.Body, &user)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +46,7 @@ func (uk *UserKit) LoginUser(username, password string) (*SessionToken, error) {
 	}
 
 	var token SessionToken
-	json.NewDecoder(r.Body).Decode(&token)
+	json.Unmarshal(r.Body, &token)
 	if err != nil {
 		return nil, err
 	}
@@ -90,9 +89,9 @@ func (e UserKitError) Error() string { return e.Message }
 
 // processErrResp takes a JSON UserKit error string and returns
 // a UserKitError object.
-func processErrResp(body io.ReadCloser) error {
+func processErrResp(body []byte) error {
 	var ukErrResp userkitErrorResponse
-	json.NewDecoder(body).Decode(&ukErrResp)
+	json.Unmarshal(body, &ukErrResp)
 	var ukError UserKitError
 	ukError = ukErrResp.ErrorValue
 	return ukError
