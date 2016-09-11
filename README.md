@@ -1,7 +1,8 @@
-# Go UserKit (experimental)
+# Go UserKit
 
 ## Summary
-An experimental UserKit client library for Go
+An experimental UserKit client library for Go.
+NOTE: May be missing some features or be updated with breaking changes.
 
 ## Installation
 
