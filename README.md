@@ -27,15 +27,18 @@ import (
 func main() {
 	uk := userkit.NewUserKit("<YOUR_APP_SECRET_KEY>")
 
-	token, err := uk.LoginUser("jane.smith@example.com", "password")
+	// login a user
+	token, err := uk.Users.LoginUser("jane.smith@example.com", "secretpass")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	fmt.Printf("%+v\n", token)
 
-	user, err := uk.GetCurrentUser(token.Token)
+	// fetch a logged-in user using their session-token
+	user, err := uk.Users.GetCurrentUser(token.Token)
 	if err != nil {
+		fmt.Println("User not logged in. Error: ")
 		fmt.Println(err)
 		return
 	}
