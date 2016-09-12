@@ -28,7 +28,7 @@ func main() {
 	uk := userkit.NewUserKit("<YOUR_APP_SECRET_KEY>")
 
 	// login a user
-	token, err := uk.Users.LoginUser("jane.smith@example.com", "password", "")
+	token, err := uk.Users.LoginUser("jane.smith@example.com", "secretpass", "")
 	if err != nil {
 		fmt.Println(err)
 		return
