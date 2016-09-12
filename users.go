@@ -26,13 +26,20 @@ func (c *usersClient) GetCurrentUser(sessionToken string) (*User, error) {
 	return &user, nil
 }
 
-func (c *usersClient) LoginUser(username, password string) (*SessionToken, error) {
+func (c *usersClient) LoginUser(username, password, loginCode string) (*SessionToken, error) {
 	rq := c.c.ukRq
 	type payload struct {
-		Username string `json:"username"`
-		Password string `json:"password"`
+		Username  string `json:"username"`
+		Password  string `json:"password"`
+		LoginCode string `json:"login_code"`
 	}
-	data := payload{Username: username, Password: password}
+	data := payload{Username: username}
+	if password != "" {
+		data.Password = password
+	}
+	if loginCode != "" {
+		data.LoginCode = loginCode
+	}
 	r, err := rq.Do("POST", apiURL+"/users/login", data, nil)
 	if err != nil {
 		return nil, err
