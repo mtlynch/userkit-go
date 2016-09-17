@@ -37,13 +37,17 @@ func main() {
 	}
 	fmt.Printf("%+v", user)
 
+	// fetch a user
+	user, _ := uk.Users.Get("usr_j3LB5QPAH8B9UD")
+	fmt.Printf("\n\nGET USER: %+v", user)
+
 	// login a user
-	token, err := uk.Users.LoginUser("jane.smith@example.com", "secretpass", "")
+	token, err := uk.Users.Login("jane.smith@example.com", "secretpass", "")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	fmt.Printf("%+v\n", token)
+	fmt.Printf("\n\nLOGIN USER: %+v\n", token)
 
 	// fetch a logged-in user by their session-token
 	user, err = uk.Users.GetCurrentUser(token.Token)
@@ -52,7 +56,7 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	fmt.Printf("%+v\n", user)
+	fmt.Printf("\n\nGET USER BY SESSION: %+v\n", user)
 }
 ```
 

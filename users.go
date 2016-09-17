@@ -26,6 +26,25 @@ func (c *usersClient) Create(data map[string]string) (*User, error) {
 	return &user, nil
 }
 
+func (c *usersClient) Get(userId string) (*User, error) {
+	rq := c.c.ukRq
+	url := apiURL + "/users/" + userId
+	r, err := rq.Do("GET", url, nil, nil)
+	if err != nil {
+		return nil, err
+	}
+	if r.StatusCode != 200 {
+		return nil, processErrResp(r.Body)
+	}
+
+	var user User
+	err = json.Unmarshal(r.Body, &user)
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
 func (c *usersClient) GetCurrentUser(sessionToken string) (*User, error) {
 	rq := c.c.ukRq
 	r, err := rq.Do("GET", apiURL+"/users/by_token", nil, &sessionToken)
@@ -44,7 +63,7 @@ func (c *usersClient) GetCurrentUser(sessionToken string) (*User, error) {
 	return &user, nil
 }
 
-func (c *usersClient) LoginUser(username, password, loginCode string) (*SessionToken, error) {
+func (c *usersClient) Login(username, password, loginCode string) (*SessionToken, error) {
 	rq := c.c.ukRq
 	type payload struct {
 		Username  string `json:"username"`
