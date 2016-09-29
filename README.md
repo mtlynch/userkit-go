@@ -60,4 +60,13 @@ func main() {
 }
 ```
 
+## Running tests
+
+To run tests you need to create a test-app.
+
+Set the `USERKIT_KEY` environment variable to your test app key, then run go test:
+```
+USERKIT_KEY=<YOUR_APP_SECRET_KEY> go test -v
+```
+
 [userkit-docs]: https://docs.userkit.io
