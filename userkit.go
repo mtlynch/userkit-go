@@ -5,7 +5,7 @@ type UserKit struct {
 }
 
 type client struct {
-	ukRq UKRequest
+	ukRq Requestor
 	key  string
 }
 
@@ -14,7 +14,7 @@ const (
 )
 
 func NewUserKit(apiKey string) UserKit {
-	r := UKRequest{ApiKey: apiKey}
+	r := Requestor{APIKey: apiKey}
 	c := client{ukRq: r, key: apiKey}
 
 	uk := UserKit{}

@@ -94,7 +94,7 @@ func (c *usersClient) Login(username, password, loginCode string) (*SessionToken
 }
 
 type User struct {
-	Id              string  `json:"id"`
+	ID              string  `json:"id"`
 	Name            string  `json:"name"`
 	Username        string  `json:"username"`
 	Email           string  `json:"email"`
