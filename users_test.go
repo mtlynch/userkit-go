@@ -50,6 +50,18 @@ func TestUserCreate(t *testing.T) {
 	}
 }
 
+func TestUpdateUser(t *testing.T) {
+	data := map[string]string{"name": "Jane Smith"}
+	user, err := uk.Users.Update(user1.ID, data)
+	if err != nil {
+		t.Errorf("API Error: %s", err)
+	}
+
+	if user.Name != data["name"] {
+		t.Errorf("Expected name: %s, but got %s", data["name"], user.Name)
+	}
+}
+
 func TestGetUser(t *testing.T) {
 	user, err := uk.Users.Get(user1.ID)
 	if err != nil {

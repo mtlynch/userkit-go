@@ -21,6 +21,7 @@ package main
 
 import (
 	"fmt"
+
 	userkit "github.com/workpail/userkit-go"
 )
 
@@ -28,26 +29,26 @@ func main() {
 	uk := userkit.NewUserKit("<YOUR_APP_SECRET_KEY>")
 
 	// create a user
-	data := map[string]string{"email": "jane.smith@example.com",
+	data := map[string]string{
+		"email":    "jane.smith@example.com",
 		"password": "secretpass"}
+
 	user, err := uk.Users.Create(data)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	fmt.Printf("%+v", user)
+	fmt.Printf("USER: %+v", user)
 
 	// fetch a user
-	user, _ := uk.Users.Get("usr_j3LB5QPAH8B9UD")
-	fmt.Printf("\n\nGET USER: %+v", user)
+	user, _ = uk.Users.Get("usr_j3LB5QPAH8B9UD")
+
+	// update a user
+	upData := map[string]string{"name": "Jane Smith"}
+	user, _ = uk.Users.Update("usr_j3LB5QPAH8B9UD", upData)
 
 	// login a user
-	token, err := uk.Users.Login("jane.smith@example.com", "secretpass", "")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Printf("\n\nLOGIN USER: %+v\n", token)
+	token, _ := uk.Users.Login("jane.smith@example.com", "secretpass", "")
 
 	// fetch a logged-in user by their session-token
 	user, err = uk.Users.GetCurrentUser(token.Token)
@@ -56,7 +57,7 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	fmt.Printf("\n\nGET USER BY SESSION: %+v\n", user)
+	fmt.Printf("GET USER BY SESSION: %+v\n", user)
 }
 ```
 

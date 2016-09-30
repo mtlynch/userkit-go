@@ -26,15 +26,34 @@ func (c *usersClient) Create(data map[string]string) (*User, error) {
 	return &user, nil
 }
 
-func (c *usersClient) Get(userId string) (*User, error) {
+func (c *usersClient) Get(userID string) (*User, error) {
 	rq := c.c.ukRq
-	url := apiURL + "/users/" + userId
+	url := apiURL + "/users/" + userID
 	r, err := rq.Do("GET", url, nil, nil)
 	if err != nil {
 		return nil, err
 	}
 	if r.StatusCode != 200 {
 		return nil, processErrResp(r.Body)
+	}
+
+	var user User
+	err = json.Unmarshal(r.Body, &user)
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
+func (c *usersClient) Update(userID string, data map[string]string) (*User, error) {
+	rq := c.c.ukRq
+	url := apiURL + "/users/" + userID
+	r, err := rq.Do("POST", url, data, nil)
+	if err != nil {
+		return nil, err
+	}
+	if r.StatusCode != 200 {
+		return nil, processErrListResp(r.Body)
 	}
 
 	var user User
