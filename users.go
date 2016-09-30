@@ -63,7 +63,7 @@ func (c *usersClient) GetCurrentUser(sessionToken string) (*User, error) {
 	return &user, nil
 }
 
-func (c *usersClient) Login(username, password, loginCode string) (*SessionToken, error) {
+func (c *usersClient) Login(username, password, loginCode string) (*Session, error) {
 	rq := c.c.ukRq
 	type payload struct {
 		Username  string `json:"username"`
@@ -85,7 +85,7 @@ func (c *usersClient) Login(username, password, loginCode string) (*SessionToken
 		return nil, processErrResp(r.Body)
 	}
 
-	var token SessionToken
+	var token Session
 	err = json.Unmarshal(r.Body, &token)
 	if err != nil {
 		return nil, err
@@ -93,6 +93,7 @@ func (c *usersClient) Login(username, password, loginCode string) (*SessionToken
 	return &token, nil
 }
 
+// User is represents a UserKit User object
 type User struct {
 	ID              string  `json:"id"`
 	Name            string  `json:"name"`
@@ -107,7 +108,8 @@ type User struct {
 	Created         float64 `json:"created"`
 }
 
-type SessionToken struct {
+// Session represents a UserKit user session
+type Session struct {
 	Token            string  `json:"token"`
 	ExpiresInSecs    float64 `json:"expires_in_secs"`
 	RefreshAfterSecs float64 `json:"refresh_after_secs"`

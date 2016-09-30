@@ -10,7 +10,7 @@ import (
 var uk Client
 var user1 *User
 var user1PW string
-var user1Sess *SessionToken
+var user1Sess *Session
 
 func init() {
 	// create client
