@@ -15,7 +15,7 @@ func (c *usersClient) Create(data map[string]string) (*User, error) {
 		return nil, err
 	}
 	if r.StatusCode != 200 {
-		return nil, processErrListResp(r.Body)
+		return nil, processErrResp(r.Body)
 	}
 
 	var user User
@@ -53,7 +53,7 @@ func (c *usersClient) Update(userID string, data map[string]string) (*User, erro
 		return nil, err
 	}
 	if r.StatusCode != 200 {
-		return nil, processErrListResp(r.Body)
+		return nil, processErrResp(r.Body)
 	}
 
 	var user User
@@ -64,7 +64,7 @@ func (c *usersClient) Update(userID string, data map[string]string) (*User, erro
 	return &user, nil
 }
 
-func (c *usersClient) GetCurrentUser(sessionToken string) (*User, error) {
+func (c *usersClient) GetUserBySession(sessionToken string) (*User, error) {
 	rq := c.c.ukRq
 	r, err := rq.Do("GET", apiURL+"/users/by_token", nil, &sessionToken)
 	if err != nil {
