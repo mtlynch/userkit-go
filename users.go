@@ -5,7 +5,7 @@ import (
 )
 
 type usersClient struct {
-	c client
+	c Client
 }
 
 func (c *usersClient) Create(data map[string]string) (*User, error) {

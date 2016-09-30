@@ -1,23 +1,24 @@
 package userkit
 
-type UserKit struct {
-	Users *usersClient
-}
-
-type client struct {
+// Client is a UserKit client through which sub-resources can be
+// accessed
+type Client struct {
 	ukRq Requestor
 	key  string
+
+	// resources
+	Users *usersClient
 }
 
 const (
 	apiURL = "https://api.userkit.io/v1"
 )
 
-func NewUserKit(apiKey string) UserKit {
+// NewUserKit creates a new client
+func NewUserKit(apiKey string) Client {
 	r := Requestor{APIKey: apiKey}
-	c := client{ukRq: r, key: apiKey}
 
-	uk := UserKit{}
-	uk.Users = &usersClient{c: c}
+	uk := Client{ukRq: r, key: apiKey}
+	uk.Users = &usersClient{c: uk}
 	return uk
 }

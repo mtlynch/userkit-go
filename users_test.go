@@ -7,7 +7,7 @@ import (
 	"github.com/workpail/userkit-go/utils"
 )
 
-var uk UserKit
+var uk Client
 var user1 *User
 var user1PW string
 var user1Sess *SessionToken
