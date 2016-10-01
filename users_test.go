@@ -41,6 +41,11 @@ func setupOnce() {
 	}
 }
 
+func TestSetupOnce(t *testing.T) {
+	// Initialize tests
+	setupOnce()
+}
+
 /* User tests */
 
 func TestUserCreate(t *testing.T) {
