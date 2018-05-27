@@ -7,7 +7,7 @@ NOTE: May be missing some features or be updated with breaking changes.
 ## Installation
 
 ```
-go get github.com/workpail/workpail-go
+go get github.com/workpail/userkit-go
 ```
 
 ## Documentation
